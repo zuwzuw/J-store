@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>{{ product.name }}</h2>
+<img src="{{ product.image_url }}" alt="{{ product.name }}" style="width:200px;">
+
+<p>Price: {{ product.price }} UZS</p>
+<p>Category: {{ product.category }} | Color: {{ product.color }} | Material: {{ product.material }}</p>
+<p>Rating: {{ avg_rating|round(1) }} / 5</p>
+
+<h3>Reviews:</h3>
+{% if reviews %}
+    <ul>
+    {% for review in reviews %}
+        <li>
+            Rating: {{ review.rating }} — {{ review.comment }}<br>
+            Author: {{ review.user.username }} | Date: {{ review.created_at }}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No reviews yet. Be the first!</p>
+{% endif %}
+
+{% if current_user.is_authenticated and current_user.role != 'admin' %}
+{% if product.stock_quantity > 0 %}
+    <p>In stock ({{ product.stock_quantity }} items available)</p>
+{% else %}
+    <p style="color: red;">Out of stock</p>
+{% endif %}
+
+<!-- Add to cart form (if available) -->
+{% if product.stock_quantity > 0 %}
+<form method="POST" action="{{ url_for('main_bp.add_to_cart', product_id=product.id) }}">
+    <label for="quantity">Quantity:</label>
+    <input type="number" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock_quantity }}">
+    <button type="submit">Add to Cart</button>
+</form>
+{% else %}
+<p>Cannot add to cart as the product is out of stock.</p>
+{% endif %}
+
+<h4>Leave a Review</h4>
+<form method="POST" action="{{ url_for('main_bp.add_review', product_id=product.id) }}">
+    Rating (1-5): <input type="number" name="rating" min="1" max="5" value="5"><br>
+    Comment: <br>
+    <textarea name="comment" rows="4" cols="50"></textarea><br>
+    <button type="submit">Submit</button>
+</form>
+<form method="POST" action="{{ url_for('main_bp.add_favorite', product_id=product.id) }}">
+  <button type="submit">Add to Favorites</button>
+</form>
+{% else %}
+<p>To leave a review, <a href="{{ url_for('main_bp.login') }}">log in</a>.</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Admin: Orders</h2>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>User</th>
+        <th>Status</th>
+        <th>Products</th>
+        <th>Action</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.id }}</td>
+        <td>{{ order.user.username }}</td>
+        <td>{{ order.status }}</td>
+        <td>
+            <ul>
+            {% for item in order.order_items %}
+                <li>{{ item.product.name }} x {{ item.quantity }} ({{ item.price }} UZS)</li>
+            {% endfor %}
+            </ul>
+        </td>
+        <td>
+            <form method="POST" action="{{ url_for('admin_bp.update_order_status', order_id=order.id) }}">
+                <select name="status">
+                    <option value="processing" {% if order.status=='processing' %}selected{% endif %}>processing</option>
+                    <option value="shipped" {% if order.status=='shipped' %}selected{% endif %}>shipped</option>
+                    <option value="delivered" {% if order.status=='delivered' %}selected{% endif %}>delivered</option>
+                </select>
+                <button type="submit">Update</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

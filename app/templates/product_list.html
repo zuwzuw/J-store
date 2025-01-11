@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Product List</h2>
+
+<form method="GET" action="{{ url_for('main_bp.product_list') }}">
+    <label>Category:
+        <select name="category">
+            <option value="">All</option>
+            {% for category in categories %}
+                <option value="{{ category }}" {% if selected_category == category %}selected{% endif %}>{{ category.capitalize() }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>Color:
+        <select name="color">
+            <option value="">All</option>
+            {% for color in colors %}
+                <option value="{{ color }}" {% if selected_color == color %}selected{% endif %}>{{ color.capitalize() }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+    <label>Material:
+        <select name="material">
+            <option value="">All</option>
+            {% for mat in materials %}
+                <option value="{{ mat }}" {% if selected_material == mat %}selected{% endif %}>{{ mat.capitalize() }}</option>
+            {% endfor %}
+        </select>
+    </label>
+    
+
+    <label>Price from:
+        <input type="number" step="0.01" name="price_min" value="{{ price_min if price_min else '' }}">
+    </label>
+    <label>to:
+        <input type="number" step="0.01" name="price_max" value="{{ price_max if price_max else '' }}">
+    </label>
+
+    <label>Sort by:
+        <select name="sort_by">
+            <option value="">No Sorting</option>
+            <option value="price" {% if sort_by == 'price' %}selected{% endif %}>Price</option>
+            <option value="rating" {% if sort_by == 'rating' %}selected{% endif %}>Rating</option>
+            <option value="created" {% if sort_by == 'created' %}selected{% endif %}>Date Added</option>
+        </select>
+    </label>
+
+    <button type="submit" class="btn btn-primary">Apply</button>
+    <!-- Button to clear filters -->
+    <a href="{{ url_for('main_bp.product_list') }}" class="btn btn-secondary">Clear Filters</a>
+</form>
+
+{% if products %}
+<ul>
+  {% for product in products %}
+    <li>
+      <a href="{{ url_for('main_bp.product_detail', product_id=product.id) }}">
+        {{ product.name }} - {{ product.price }} UZS | {{ product.category }} | {{ product.color }} | {{ product.material }} | Rating: {{ product.rating }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No products match the criteria.</p>
+{% endif %}
+
+{% endblock %}

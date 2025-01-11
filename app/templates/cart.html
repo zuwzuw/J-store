@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>My Cart</h2>
+{% if cart_items %}
+<table id="cart-table">
+  <tr>
+    <th>Product</th>
+    <th>Price</th>
+    <th>Quantity</th>
+    <th>Total</th>
+    <th>Action</th>
+  </tr>
+  {% for item in cart_items %}
+  <tr data-cart-item-id="{{ item.id }}">
+    <td>{{ item.product.name }}</td>
+    <td class="item-price">{{ item.product.price }}</td>
+    <td class="item-quantity">
+        <button class="quantity-decrease">-</button>
+        <span class="quantity-value">{{ item.quantity }}</span>
+        <button class="quantity-increase">+</button>
+    </td>
+    <td class="item-total">{{ item.product.price * item.quantity }}</td>
+    <td>
+      <button class="remove-item">Remove</button>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<p>Total Amount: <span id="cart-total">{{ total }}</span> UZS</p>
+
+<form method="POST" action="{{ url_for('main_bp.checkout') }}">
+    <button type="submit">Checkout</button>
+</form>
+
+{% else %}
+<p>The cart is empty.</p>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const updateQuantityUrl = "{{ url_for('main_bp.update_quantity') }}";
+    const removeItemUrl = "{{ url_for('main_bp.remove_item') }}";
+</script>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+{% endblock %}

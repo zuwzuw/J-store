@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Favorite Products</h2>
+{% if products %}
+    <ul>
+    {% for product in products %}
+        <li>
+            <img src="{{ product.image_url }}" alt="{{ product.name }}" style="width:150px; height:auto; display:block; margin-bottom:5px;">
+            <a href="{{ url_for('main_bp.product_detail', product_id=product.id) }}">{{ product.name }}</a>
+            <br>
+            Price: {{ product.price }} UZS<br>
+            Category: {{ product.category }} | Color: {{ product.color }} | Material: {{ product.material }} | Rating: {{ product.rating }}
+            <form method="POST" action="{{ url_for('main_bp.remove_favorite', product_id=product.id) }}">
+                <button type="submit">Remove from Favorites</button>
+            </form>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No favorite products yet.</p>
+{% endif %}
+{% endblock %}

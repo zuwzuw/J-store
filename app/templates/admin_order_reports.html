@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Order Reports</h2>
+{% if orders %}
+<table border="1">
+  <tr>
+    <th>Order ID</th>
+    <th>User</th>
+    <th>Status</th>
+    <th>Created At</th>
+    <th>Total</th>
+  </tr>
+  {% for o in orders %}
+  <tr>
+    <td>{{ o.id }}</td>
+    <td>{{ o.user.username if o.user else 'No User' }}</td>
+    <td>{{ o.status }}</td>
+    <td>{{ o.created_at }}</td>
+    <td>{{ o.total }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>No orders yet.</p>
+{% endif %}
+{% endblock %}

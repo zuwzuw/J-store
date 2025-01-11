@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Admin: Products</h2>
+
+{% if mode == 'add' %}
+<h3>Add Product</h3>
+<form method="POST" action="{{ url_for('admin_bp.add_product') }}">
+    {{ form.hidden_tag() }}
+    <p>{{ form.name.label }}<br>{{ form.name }}</p>
+    <p>{{ form.description.label }}<br>{{ form.description }}</p>
+    <p>{{ form.price.label }}<br>{{ form.price }}</p>
+    <p>{{ form.category.label }}<br>{{ form.category }}</p>
+    <p>{{ form.color.label }}<br>{{ form.color }}</p>
+    <p>{{ form.material.label }}<br>{{ form.material }}</p>
+    <p>{{ form.stock_quantity.label }}<br>{{ form.stock_quantity }}</p>
+    <p>{{ form.submit }}</p>
+</form>
+{% elif mode == 'edit' %}
+<h3>Edit Product</h3>
+<form method="POST" action="{{ url_for('admin_bp.edit_product', product_id=product.id) }}">
+    {{ form.hidden_tag() }}
+    <p>{{ form.name.label }}<br>{{ form.name }}</p>
+    <p>{{ form.description.label }}<br>{{ form.description }}</p>
+    <p>{{ form.price.label }}<br>{{ form.price }}</p>
+    <p>{{ form.category.label }}<br>{{ form.category }}</p>
+    <p>{{ form.color.label }}<br>{{ form.color }}</p>
+    <p>{{ form.material.label }}<br>{{ form.material }}</p>
+    <p>{{ form.submit }}</p>
+</form>
+{% else %}
+<h3>Product List</h3>
+<a href="{{ url_for('admin_bp.add_product') }}">Add Product</a>
+<table border="1">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Category</th>
+        <th>Actions</th>
+    </tr>
+    {% for p in products %}
+    <tr>
+        <td>{{ p.id }}</td>
+        <td>{{ p.name }}</td>
+        <td>{{ p.price }}</td>
+        <td>{{ p.category }}</td>
+        <td>
+            <a href="{{ url_for('admin_bp.edit_product', product_id=p.id) }}">Edit</a> | 
+            <form action="{{ url_for('admin_bp.delete_product', product_id=p.id) }}" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Delete product?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endblock %}

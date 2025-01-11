@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Product Reports</h2>
+{% if products %}
+<table border="1">
+  <tr>
+    <th>Product ID</th>
+    <th>Name</th>
+    <th>Category</th>
+    <th>Price</th>
+    <th>In Stock</th>
+    <th>Sold</th>
+    <th>Date Added</th>
+  </tr>
+  {% for p in products %}
+  <tr>
+    <td>{{ p.id }}</td>
+    <td>{{ p.name }}</td>
+    <td>{{ p.category }}</td>
+    <td>{{ p.price }}</td>
+    <td>{{ p.stock_quantity }}</td>
+    <td>{{ p.sold_quantity }}</td>
+    <td>{{ p.created_at }}</td>
+  </tr>
+  {% endfor %}
+</table>
+{% else %}
+<p>No products yet.</p>
+{% endif %}
+{% endblock %}

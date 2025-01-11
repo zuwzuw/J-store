@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Manage Categories</h2>
+
+<h3>Existing Categories:</h3>
+<ul>
+    {% for category in categories %}
+    <li>{{ category }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Add New Category:</h3>
+<form method="POST" action="{{ url_for('main_bp.manage_categories') }}">
+    <input type="text" name="new_category" placeholder="Category Name" required>
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+{% endblock %}
