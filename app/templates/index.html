@@ -8,6 +8,7 @@
         {% for p in products %}
             <div class="product-item">
                 <a href="{{ url_for('main_bp.product_detail', product_id=p.id) }}">
+                    <img src="{{ url_for('static', filename='uploads/' + p.image_url) if p.image_url else url_for('static', filename='uploads/default.jpg') }}" alt="{{ p.name }}" style="max-width: 150px; max-height: 150px;">
                     {{ p.name }} - {{ p.price }} UZS
                 </a>
             </div>

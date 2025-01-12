@@ -1,12 +1,24 @@
+/* Общие стили */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    line-height: 1.6;
+    margin-bottom: 70px; /* Увеличенный отступ для футера */
+    background-color: #f5f5f5; /* Легкий фон для всей страницы */
 }
 
+.container {
+    padding: 1.5em;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Навигация */
 nav {
-    background-color: #cc6600; /* black-orange */
+    background-color: #cc6600; /* Черно-оранжевый */
     padding: 1em;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 nav a {
@@ -16,19 +28,129 @@ nav a {
     font-weight: bold;
 }
 
-.container {
-    padding: 1em;
+nav a:hover {
+    text-decoration: underline;
 }
 
+/* Список продуктов */
 .product-list {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
 }
 
 .product-item {
     border: 1px solid #ccc;
     margin: 0.5em;
-    padding: 0.5em;
-    width: 200px;
+    padding: 1em;
+    width: 220px;
     text-align: center;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.product-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    margin-bottom: 0.5em;
+}
+
+.product-item:hover {
+    border-color: #cc6600;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+}
+
+/* Футер */
+.footer {
+    position: relative;
+    margin-top: 20px;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    background-color: #f8f9fa;
+    padding: 10px 0;
+    border-top: 1px solid #ddd;
+    box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+}
+
+.footer p {
+    margin: 0;
+    color: #333;
+    font-size: 0.9em;
+}
+
+/* Кнопки */
+button {
+    background-color: #cc6600;
+    color: #fff;
+    border: none;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    font-size: 1em;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #e67300;
+}
+
+/* Для адаптивного дизайна */
+@media (max-width: 768px) {
+    .product-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .product-item {
+        width: 90%;
+    }
+
+    nav {
+        text-align: center;
+    }
+    
+    .form-container {
+        display: flex; /* Flexbox для горизонтального расположения */
+        justify-content: space-between; /* Равномерное расстояние между блоками */
+        align-items: flex-start; /* Выравнивание по верхнему краю */
+        gap: 20px; /* Отступ между формой и превью */
+        margin-top: 20px; /* Отступ сверху */
+    }
+    
+    .form-left {
+        flex: 1; /* Форма занимает больше места */
+    }
+    
+    .form-right {
+        flex: 0.5; /* Превью занимает меньше места */
+        text-align: center; /* Центровка содержимого */
+    }
+    
+    .form-right img {
+        margin-top: 10px; /* Отступ сверху */
+        max-width: 100%; /* Максимальная ширина для адаптации */
+        border-radius: 5px; /* Округлые углы */
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Легкая тень */
+    }        
+    
+    button {
+        margin-top: 20px;
+        background-color: #cc6600;
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+    }
+    
+    button:hover {
+        background-color: #e67300;
+    }
+    
 }

@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, FloatField, TextAreaField, IntegerField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, FloatField, TextAreaField, IntegerField, SelectField, FileField
 from wtforms.validators import DataRequired, Email, EqualTo, NumberRange
 
 class RegistrationForm(FlaskForm):
@@ -22,4 +22,6 @@ class ProductForm(FlaskForm):
     color = StringField('Color')
     material = StringField('Material')
     stock_quantity = IntegerField('Stock Quantity', validators=[NumberRange(min=0)])
+    image = FileField('Product Image')
     submit = SubmitField('Save')
+

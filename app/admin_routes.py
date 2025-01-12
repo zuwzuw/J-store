@@ -1,8 +1,11 @@
+import os
+from werkzeug.utils import secure_filename
 from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from . import db
 from .models import User, Product, Order, OrderItem
 from .forms import ProductForm
+from config import Config
 
 admin_bp = Blueprint('admin_bp', __name__)
 
@@ -35,12 +38,20 @@ def admin_products():
     products = Product.query.all()
     return render_template('admin_products.html', products=products)
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in Config.ALLOWED_EXTENSIONS
+
 @admin_bp.route('/products/add', methods=['GET', 'POST'])
 @login_required
 @admin_required
 def add_product():
     form = ProductForm()
     if form.validate_on_submit():
+        filename = None
+        if form.image.data and allowed_file(form.image.data.filename):
+            filename = secure_filename(form.image.data.filename)
+            form.image.data.save(os.path.join(Config.UPLOAD_FOLDER, filename))
+
         product = Product(
             name=form.name.data,
             description=form.description.data,
@@ -48,7 +59,8 @@ def add_product():
             category=form.category.data,
             color=form.color.data,
             material=form.material.data,
-            stock_quantity=form.stock_quantity.data or 0
+            stock_quantity=form.stock_quantity.data or 0,
+            image_url=filename
         )
         db.session.add(product)
         db.session.commit()
@@ -64,6 +76,12 @@ def edit_product(product_id):
     product = Product.query.get_or_404(product_id)
     form = ProductForm(obj=product)
     if form.validate_on_submit():
+        if form.image.data and allowed_file(form.image.data.filename):
+            filename = secure_filename(form.image.data.filename)
+            image_path = os.path.join(Config.UPLOAD_FOLDER, filename)
+            form.image.data.save(image_path)
+            product.image_url = filename
+
         product.name = form.name.data
         product.description = form.description.data
         product.price = form.price.data

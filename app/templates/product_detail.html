@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
 <h2>{{ product.name }}</h2>
-<img src="{{ product.image_url }}" alt="{{ product.name }}" style="width:200px;">
+{% if product.image_url %}
+    <img src="{{ url_for('static', filename='uploads/' + product.image_url) }}" alt="{{ product.name }}" style="max-width: 300px; max-height: 300px;">
+{% else %}
+    <img src="{{ url_for('static', filename='uploads/default.jpg') }}" alt="Default image" style="max-width: 300px; max-height: 300px;">
+{% endif %}
 
 <p>Price: {{ product.price }} UZS</p>
 <p>Category: {{ product.category }} | Color: {{ product.color }} | Material: {{ product.material }}</p>
