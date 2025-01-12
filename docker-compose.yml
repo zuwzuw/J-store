@@ -1,16 +1,19 @@
+version: '3.8'
 
 services:
+
   flask_app:
     build:
       context: .
     container_name: flask_app
     ports:
-      - "5000:5000"
+      - "5000:5000" # Flask app
     environment:
       - FLASK_ENV=production
-      - DATABASE_PATH=/app/furniture_shop.db # path to the database
+      - DATABASE_PATH=/app/furniture_shop.db
     volumes:
-      - sqlite_data:/app # connect to save the database data
+      - sqlite_data:/app
 
 volumes:
-  sqlite_data: # database volume
+  jenkins_home: {}
+  sqlite_data: {}

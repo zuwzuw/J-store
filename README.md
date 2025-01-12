@@ -1,3 +1,1 @@
-Default Credentials for Admin
-Login = admin@gmail.com
-Password = admin
+First registered user will be ADMIN
